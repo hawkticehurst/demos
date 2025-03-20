@@ -20,7 +20,7 @@ export default defineComponent({
 			{
 				name: 'GitHub Copilot Chat',
 				options: [
-					{ label: 'GitHub Copilot Chat', description: '', metadata: 'from extension (running)', checked: true, bold: true },
+					{ label: 'GitHub Copilot Chat', description: '', metadata: 'from extension', checked: true, bold: true },
 					{ label: 'Codebase', description: 'References relevant file chunks, symbols, and other information in your codebase.', checked: true },
 					{ label: 'Find Usages', description: '', checked: true },
 					{ label: 'VS Code API', description: 'Use VS Code API to find references to answer questions about VS Code extension...', checked: true },
@@ -53,7 +53,7 @@ export default defineComponent({
 			{
 				name: 'Azure',
 				options: [
-					{ label: 'MCP Server: Azure', description: '', metadata: 'from extension (running)', checked: true, bold: true },
+					{ label: 'MCP Server: Azure', description: '', metadata: 'from extension', checked: true, bold: true },
 					{ label: 'cost', description: 'Provide detailed cost analysis for Azure services.', checked: true },
 					{ label: 'resource', description: 'Get detailed information about a specific Azure resource.', checked: true },
 					{ label: 'subscription', description: 'Get detailed information about a specific Azure subscription.', checked: true },
