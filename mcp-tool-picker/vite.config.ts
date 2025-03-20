@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/demos/',
+  base: '/demos/mcp-tool-picker/',
   plugins: [vue({
     template: {
       compilerOptions: {
