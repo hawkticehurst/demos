@@ -33,7 +33,7 @@ export default defineComponent({
 			{
 				name: 'poppy-framework',
 				options: [
-					{ label: 'MCP Server: poppy-framework', description: '', metadata: 'from your workspace (running)', checked: true, bold: true },
+					{ label: 'MCP Server: poppy-framework', description: '', metadata: 'from your workspace', checked: true, bold: true },
 					{ label: 'poppy_state', description: 'Get an example of a Poppy state declaration. Use this to understand how to declare a Poppy state in your code.', checked: true },
 					{ label: 'create_poppy_component', description: 'Create a Poppy component. Use this to create a new Poppy component.', checked: true }
 				]
@@ -41,13 +41,25 @@ export default defineComponent({
 			{
 				name: 'filesystem',
 				options: [
-					{ label: 'MCP Server: filesystem', description: '', metadata: 'from Claude Desktop (stopped)', checked: true, bold: true },
+					{ label: 'MCP Server: filesystem', description: '', metadata: 'from claude_desktop_config.json', checked: true, bold: true },
 					{ label: 'read_file', description: 'Read the complete contents of a file from the file system.', checked: true },
 					{ label: 'read_multiple_file', description: 'Read the complete contents of multiple files simultaneously.', checked: true },
 					{ label: 'write_file', description: 'Create a new file or completely overwrite an existing file with new content.', checked: true },
 					{ label: 'edit_file', description: 'Make line based edits to a file.', checked: true },
 					{ label: 'create_directory', description: 'Create a new directory or ensure a directory exists.', checked: true },
 					{ label: 'list_directory', description: 'Get a detailed list of all files and directories in a specified path.', checked: true },
+				]
+			},
+			{
+				name: 'cloudflare',
+				options: [
+					{ label: 'MCP Server: cloudflare', description: '', metadata: 'from .cursor/mcp.json', checked: true, bold: true },
+					{ label: 'r2_list_buckets', description: 'List all R2 buckets in your account.', checked: true },
+					{ label: 'r2_create_bucket', description: 'Create a new R2 bucket.', checked: true },
+					{ label: 'r2_delete_bucket', description: 'Delete an R2 bucket.', checked: true },
+					{ label: 'r2_list_objects', description: 'List objects in an R2 bucket.', checked: true },
+					{ label: 'r2_get_object', description: 'Get an object from an R2 bucket.', checked: true },
+					{ label: 'r2_put_object', description: 'Put an object into an R2 bucket.', checked: true },
 				]
 			},
 			{
