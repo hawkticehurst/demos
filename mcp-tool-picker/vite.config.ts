@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/vscode-uxe-playground/',
+  base: '/demos/',
   plugins: [vue({
     template: {
       compilerOptions: {
@@ -13,7 +13,7 @@ export default defineConfig({
     }
   })],
   build: {
-    outDir: "build",
+    outDir: "build/mcp-tool-picker/",
     rollupOptions: {
       output: {
         entryFileNames: `assets/[name].js`,

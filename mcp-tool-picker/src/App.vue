@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import QuickPick from './components/QuickPick.vue'
 import { provideVSCodeDesignSystem, allComponents } from "@vscode/webview-ui-toolkit";
-import { ref, onMounted, nextTick } from 'vue';
+import { ref, onMounted } from 'vue';
 
 provideVSCodeDesignSystem().register(allComponents);
 
