@@ -102,15 +102,14 @@ export default defineComponent({
 
 .option-description {
 	font-size: 0.9em;
-	color: var(--vscode-descriptionForeground, #ccccccb3);
+	color: var(--vscode-descriptionForeground);
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
 .quick-pick-option-metadata {
-	/* VS Code primary blue */
-	color: var(--vscode-focusBorder);
+	color: light-dark(var(--vscode-list-deemphasizedForeground), var(--vscode-focusBorder));
 	font-weight: 500;
 }
 </style>

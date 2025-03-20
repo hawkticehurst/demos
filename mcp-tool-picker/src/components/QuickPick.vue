@@ -20,7 +20,7 @@ export default defineComponent({
 			{
 				name: 'GitHub Copilot Chat',
 				options: [
-					{ label: 'GitHub Copilot Chat', description: '', metadata: 'Built In (Running)', checked: true, bold: true },
+					{ label: 'GitHub Copilot Chat', description: '', metadata: 'from extension (running)', checked: true, bold: true },
 					{ label: 'Codebase', description: 'References relevant file chunks, symbols, and other information in your codebase.', checked: true },
 					{ label: 'Find Usages', description: '', checked: true },
 					{ label: 'VS Code API', description: 'Use VS Code API to find references to answer questions about VS Code extension...', checked: true },
@@ -33,7 +33,7 @@ export default defineComponent({
 			{
 				name: 'poppy-framework',
 				options: [
-					{ label: 'MCP Server: poppy-framework', description: '', metadata: 'From your workspace (Running)', checked: true, bold: true },
+					{ label: 'MCP Server: poppy-framework', description: '', metadata: 'from your workspace (running)', checked: true, bold: true },
 					{ label: 'poppy_state', description: 'Get an example of a Poppy state declaration. Use this to understand how to declare a Poppy state in your code.', checked: true },
 					{ label: 'create_poppy_component', description: 'Create a Poppy component. Use this to create a new Poppy component.', checked: true }
 				]
@@ -41,7 +41,7 @@ export default defineComponent({
 			{
 				name: 'filesystem',
 				options: [
-					{ label: 'MCP Server: filesystem', description: '', metadata: 'From Claude Desktop (Stopped)', checked: true, bold: true },
+					{ label: 'MCP Server: filesystem', description: '', metadata: 'from Claude Desktop (stopped)', checked: true, bold: true },
 					{ label: 'read_file', description: 'Read the complete contents of a file from the file system.', checked: true },
 					{ label: 'read_multiple_file', description: 'Read the complete contents of multiple files simultaneously.', checked: true },
 					{ label: 'write_file', description: 'Create a new file or completely overwrite an existing file with new content.', checked: true },
@@ -53,7 +53,7 @@ export default defineComponent({
 			{
 				name: 'Azure',
 				options: [
-					{ label: 'MCP Extension: Azure', description: '', metadata: 'From Extension Marketplace (Running)', checked: true, bold: true },
+					{ label: 'MCP Server: Azure', description: '', metadata: 'from extension (running)', checked: true, bold: true },
 					{ label: 'cost', description: 'Provide detailed cost analysis for Azure services.', checked: true },
 					{ label: 'resource', description: 'Get detailed information about a specific Azure resource.', checked: true },
 					{ label: 'subscription', description: 'Get detailed information about a specific Azure subscription.', checked: true },
