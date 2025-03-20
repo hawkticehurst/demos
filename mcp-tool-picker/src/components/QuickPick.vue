@@ -53,7 +53,7 @@ export default defineComponent({
 			{
 				name: 'Azure',
 				options: [
-					{ label: 'MCP Server: Azure', description: '', metadata: 'from extension', checked: true, bold: true },
+					{ label: 'GitHub Copilot for Azure', description: '', metadata: 'from extension', checked: true, bold: true },
 					{ label: 'cost', description: 'Provide detailed cost analysis for Azure services.', checked: true },
 					{ label: 'resource', description: 'Get detailed information about a specific Azure resource.', checked: true },
 					{ label: 'subscription', description: 'Get detailed information about a specific Azure subscription.', checked: true },
