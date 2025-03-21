@@ -14,12 +14,15 @@ export default defineConfig({
   })],
   build: {
     outDir: "build/mcp-tool-confirmation/",
+    // Ensure assets from public directory are copied to build output
+    copyPublicDir: true,
     rollupOptions: {
       output: {
-        entryFileNames: `assets/[name].js`,
-        chunkFileNames: `assets/[name].js`,
-        assetFileNames: `assets/[name].[ext]`,
+        manualChunks: () => 'index',
+        entryFileNames: 'assets/index.js',
+        assetFileNames: 'assets/[name].[ext]'
       },
     },
   },
+  publicDir: 'public', // explicitly set public directory
 })
