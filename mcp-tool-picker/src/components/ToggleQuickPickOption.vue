@@ -15,6 +15,10 @@ export default defineComponent({
 		bold: {
 			type: Boolean,
 			default: false
+		},
+		isServer: {
+			type: Boolean,
+			default: false
 		}
 	},
 	emits: ['toggle'],
@@ -28,21 +32,31 @@ export default defineComponent({
 			}
 		});
 
+		// Handle click on the option item - this now passes the isServer information
 		const toggleCheckbox = () => {
 			emit('toggle', !props.checked);
 		};
 
+		// Handle the checkbox's direct change event
+		const handleCheckboxChange = (event) => {
+			event.stopPropagation();
+			// Emit the toggle with the new value
+			emit('toggle', event.target.checked);
+		};
+
 		return {
 			checkboxRef,
-			toggleCheckbox
+			toggleCheckbox,
+			handleCheckboxChange
 		};
 	}
 });
 </script>
 
 <template>
-	<section class="quick-pick-option" :class="{ 'selected': selected }" @click="toggleCheckbox">
-		<vscode-checkbox ref="checkboxRef" :checked="checked" @click.stop></vscode-checkbox>
+	<section class="quick-pick-option" :class="{ 'selected': selected, 'server-option': isServer }"
+		@click="toggleCheckbox">
+		<vscode-checkbox ref="checkboxRef" :checked="checked" @click.stop @change="handleCheckboxChange"></vscode-checkbox>
 		<div class="quick-pick-option-content">
 			<div class="option-label" :class="{ 'bold': bold }">
 				<slot></slot>

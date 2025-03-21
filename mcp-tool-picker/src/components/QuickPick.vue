@@ -83,6 +83,13 @@ export default defineComponent({
 			);
 		});
 
+		// New computed property for each group to determine if all tools are checked
+		const areAllToolsChecked = (groupIndex) => {
+			const group = optionGroups.value[groupIndex];
+			// Skip the first item (server) and check all tool items
+			return group.options.slice(1).every(option => option.checked);
+		};
+
 		// Function to toggle all options
 		const toggleAllOptions = (checked) => {
 			optionGroups.value.forEach(group => {
@@ -114,10 +121,35 @@ export default defineComponent({
 		// Call this initially to set up the flattened options
 		flattenOptions();
 
-		// Handle option toggling
+		// Function to toggle all tools in a group
+		const toggleGroupTools = (groupIndex, checked) => {
+			const group = optionGroups.value[groupIndex];
+			// Start from index 1 to skip the server item
+			for (let i = 1; i < group.options.length; i++) {
+				group.options[i].checked = checked;
+			}
+		};
+
+		// Handle option toggling with server-specific logic
 		const toggleOption = (groupIndex, optionIndex, checked) => {
-			optionGroups.value[groupIndex].options[optionIndex].checked = checked;
-			// Update flattened options
+			// Store current state to detect if this is the first toggle
+			const currentOption = optionGroups.value[groupIndex].options[optionIndex];
+			const isFirstToggle = currentOption.checked !== checked;
+
+			// Update the clicked option's state
+			currentOption.checked = checked;
+
+			// Only do group toggling for server items (first item in group)
+			if (optionIndex === 0) {
+				// Toggle all associated tools
+				toggleGroupTools(groupIndex, checked);
+			} else {
+				// For tool items, update the server based on all tool states
+				const allToolsChecked = areAllToolsChecked(groupIndex);
+				optionGroups.value[groupIndex].options[0].checked = allToolsChecked;
+			}
+
+			// Update flattened options to ensure UI reflects changes
 			flattenOptions();
 
 			// Update header checkbox based on all options state
@@ -202,16 +234,10 @@ export default defineComponent({
 					const group = optionGroups.value[groupIndex];
 					for (let optionIndex = 0; optionIndex < group.options.length; optionIndex++) {
 						const option = group.options[optionIndex];
-						if (option.label === currentFlatOption.label) {
-							// Toggle the option
-							option.checked = !option.checked;
-							// Update flattened options
-							flattenOptions();
-							// Update header checkbox state
-							if (headerCheckboxRef.value) {
-								headerCheckboxRef.value.checked = allOptionsChecked.value;
-							}
-							break;
+						if (option.label === currentFlatOption.label && option.description === currentFlatOption.description) {
+							// Toggle the option with our enhanced toggle function
+							toggleOption(groupIndex, optionIndex, !option.checked);
+							return;
 						}
 					}
 				}
@@ -285,7 +311,8 @@ export default defineComponent({
 				<div class="option-group">
 					<ToggleQuickPickOption v-for="(option, optionIndex) in group.options" :key="optionIndex"
 						:selected="!isTextFieldFocused && flattenedOptions.findIndex(o => o.label === option.label && o.description === option.description) === selectedIndex"
-						:checked="option.checked" :bold="option.bold" :class="{ 'indented-option': optionIndex > 0 }"
+						:checked="option.checked" :bold="option.bold" :is-server="optionIndex === 0"
+						:class="{ 'indented-option': optionIndex > 0 }"
 						@toggle="checked => toggleOption(groupIndex, optionIndex, checked)">
 						<span>{{ option.label }}</span>
 						<template #description>
@@ -326,7 +353,7 @@ export default defineComponent({
 	padding-bottom: 8px;
 }
 
-.quick-pick-header > vscode-text-field {
+.quick-pick-header>vscode-text-field {
 	flex-grow: 1;
 }
 

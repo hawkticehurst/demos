@@ -31,6 +31,12 @@ function hide(element: HTMLElement) {
   element.style.display = 'none';
 }
 
+function showTodo(element: HTMLElement, message: string) {
+  const p = document.createElement('p');
+  p.textContent = message;
+  element.insertAdjacentElement('afterend', p);
+}
+
 function showFirstTimeConfirmation() {
   const confirmation = document.getElementById('first-time-warning');
   if (confirmation) {
@@ -41,6 +47,7 @@ function showFirstTimeConfirmation() {
 function hideFirstTimeConfirmation() {
   const confirmation = document.getElementById('first-time-warning');
   if (confirmation) {
+    showTodo(confirmation, '[TODO: Server Usage Denial UI]');
     hide(confirmation);
   }
 }
@@ -50,11 +57,27 @@ function showListAllowedDirsConfirmation() {
   if (confirmation) {
     show(confirmation);
   }
+  const firstTimeConfirmation = document.getElementById('first-time-warning');
+  if (firstTimeConfirmation) {
+    if (firstTimeConfirmation.style.display === 'flex') {
+      showTodo(firstTimeConfirmation, '[TODO: Server Usage Confirmation UI]');
+      hide(firstTimeConfirmation);
+    }
+  }
 }
 
 function hideListAllowedDirsConfirmation() {
   const confirmation = document.getElementById('list-allowed-directories') as HTMLDialogElement;
   if (confirmation) {
+    showTodo(confirmation, '[TODO: Tool Cancelled UI]');
+    hide(confirmation);
+  }
+}
+
+function showListDirsConfirmation() {
+  const confirmation = document.getElementById('list-allowed-directories');
+  if (confirmation) {
+    showTodo(confirmation, '[TODO: Tool Executed UI]');
     hide(confirmation);
   }
 }
@@ -138,6 +161,9 @@ const code = `{}`;
             Returns the list of directories that this server is allowed to access. Use this to understand which
             directories are available before trying to access files.
           </p>
+          <p style="font-weight: bold;">
+            Tool input:
+          </p>
           <CodeBlock lang='typescript' :code="code" :theme="{
             light: 'light-plus',
             dark: 'dark-plus'
@@ -148,7 +174,7 @@ const code = `{}`;
         </div>
       </details>
       <div style="display: flex; gap: 8px; margin-top: 8px;">
-        <vscode-button>Continue</vscode-button>
+        <vscode-button @click="showListDirsConfirmation" iconAfter="chevron-down">Continue |</vscode-button>
         <vscode-button @click="hideListAllowedDirsConfirmation" secondary>Cancel</vscode-button>
       </div>
     </ToolConfirmation>
