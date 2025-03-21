@@ -93,34 +93,28 @@ const code = `{}`;
   <details class="proposed-changes">
     <summary>Proposed Changes</summary>
     <ol>
-      <li>Change checkbox style to match checkboxes from Settings page</li>
+      <li>Add a confirmation for the first time a new MCP Server is used.</li>
       <ul>
-        <li>Goal: Reduce visual noise and better match editor theming</li>
-        <li>Goal: Let's the color of server contribution source / server state text stand out</li>
+        <li>Goal: Make it *very* clear that a new MCP server is about to be used and get explicit permission to move
+          forward.</li>
+        <li>Goal: Prominently display the security implications of using the MCP server early.</li>
+        <li>Bonus: Showing the fully security warning early means we can clean up individual tool call confirmations.
+        </li>
       </ul>
-      <li>Remove icons and indent tool list items</li>
+      <li>Run tool confirmation: Prominently display source server.</li>
       <ul>
-        <li>Goal: Reduce visual noise</li>
-        <li>Goal: Improve the ability to distinguish servers and tools via stronger visual hierarchy</li>
+        <li>Goal: Make it clear which server the tool is coming from. Previously it was easy to miss.</li>
       </ul>
-      <li>Prefix server names with "MCP Server:"</li>
+      <li>Run tool confirmation: Explicitly label tool input.</li>
       <ul>
-        <li>Note: Also demoed "MCP Extension:" – might be the wrong term but the idea is that there can be variations on
-          the prefix name used</li>
-        <li>Goal: Provide extra information to distinguish between servers and tools</li>
-        <li>Goal: Reduce density of information on the right side of server list items</li>
+        <li>Goal: Clearly indicate that included code snippets represent the tool input.</li>
       </ul>
-      <li>Prefix all MCP contribution sources with "From"</li>
+      <li>Run tool confirmation: Clean up security warning copy.</li>
       <ul>
-        <li>Goal: Makes it more clear that a server is *coming from* somewhere</li>
-        <li>Example: "Claude Desktop" vs "From Claude Desktop"</li>
-        <li>Bonus: Improves visual consistency / mental parse-ability of contribution sources text</li>
+        <li>Since we moved security language to the initial confirmation dialog, we can streamline the language used in
+          subsequent confirmations.</li>
       </ul>
-      <li>Suggestion: Add a contribution source label and server status to GitHub Copilot Chat server</li>
-      <ul>
-        <li>Goal: Improves consistency across all MCP contribution sources copy</li>
-        <li>Note: "Built In" might be the wrong term – consider revising for clarity/accuracy</li>
-      </ul>
+      <li>TODO: More to come... this demo is still WIP</li>
     </ol>
   </details>
   <section class="chat-thread">
@@ -144,8 +138,7 @@ const code = `{}`;
       </p>
       <p>
         Please carefully review any requested actions. Note that MCP Servers or malicious conversation content may
-        attempt
-        to misuse 'Code - Insiders' through tools.
+        attempt to misuse 'Code - Insiders' through tools.
       </p>
       <div style="display: flex; gap: 8px; margin-top: 8px;">
         <vscode-button @click="showListAllowedDirsConfirmation">Continue</vscode-button>
@@ -156,7 +149,7 @@ const code = `{}`;
       <details class="tool-details">
         <summary>Run <code class="snippet">list_allowed_directories</code></summary>
         <div class="tool-confirmation__content">
-          <p>This tool is from <code class="snippet">filesystem</code> (MCP Server).</p>
+          <p>This tool is from the <code class="snippet">filesystem</code> MCP Server.</p>
           <p>
             Returns the list of directories that this server is allowed to access. Use this to understand which
             directories are available before trying to access files.
@@ -169,12 +162,12 @@ const code = `{}`;
             dark: 'dark-plus'
           }"></CodeBlock>
           <p>
-            <vscode-icon name="info"></vscode-icon> Please carefully review the requested action.
+            <vscode-icon name="info"></vscode-icon> Please carefully review the proposed action and input.
           </p>
         </div>
       </details>
       <div style="display: flex; gap: 8px; margin-top: 8px;">
-        <vscode-button @click="showListDirsConfirmation" iconAfter="chevron-down">Continue |</vscode-button>
+        <vscode-button @click="showListDirsConfirmation">Continue</vscode-button>
         <vscode-button @click="hideListAllowedDirsConfirmation" secondary>Cancel</vscode-button>
       </div>
     </ToolConfirmation>
