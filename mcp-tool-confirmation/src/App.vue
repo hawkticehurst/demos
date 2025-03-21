@@ -93,7 +93,7 @@ const code = `{}`;
   <details class="proposed-changes">
     <summary>Proposed Changes</summary>
     <ol>
-      <li>Add a confirmation for the first time a new MCP Server is used.</li>
+      <li>Add a confirmation for the first time a new MCP server is used.</li>
       <ul>
         <li>Goal: Make it *very* clear that a new MCP server is about to be used and get explicit permission to move
           forward.</li>
@@ -133,11 +133,11 @@ const code = `{}`;
     </Message>
     <ToolConfirmation :id="'first-time-warning'">
       <p class="tool-confirmation-first-time-title">
-        <vscode-icon name="warning"></vscode-icon>The <code class="snippet">filesystem</code> MCP Server is about to be
+        <vscode-icon name="warning"></vscode-icon>The <code class="snippet">filesystem</code> MCP server is being
         used for the first time.
       </p>
       <p>
-        Please carefully review any requested actions. Note that MCP Servers or malicious conversation content may
+        Carefully review any requested actions. Note that MCP servers or malicious conversation content may
         attempt to misuse 'Code - Insiders' through tools.
       </p>
       <div style="display: flex; gap: 8px; margin-top: 8px;">
@@ -149,7 +149,7 @@ const code = `{}`;
       <details class="tool-details">
         <summary>Run <code class="snippet">list_allowed_directories</code></summary>
         <div class="tool-confirmation__content">
-          <p>This tool is from the <code class="snippet">filesystem</code> MCP Server.</p>
+          <p>This tool is from the <code class="snippet">filesystem</code> MCP server.</p>
           <p>
             Returns the list of directories that this server is allowed to access. Use this to understand which
             directories are available before trying to access files.
@@ -162,7 +162,7 @@ const code = `{}`;
             dark: 'dark-plus'
           }"></CodeBlock>
           <p>
-            <vscode-icon name="info"></vscode-icon> Please carefully review the proposed action and input.
+            <vscode-icon name="info"></vscode-icon> Carefully review the proposed action and input.
           </p>
         </div>
       </details>
