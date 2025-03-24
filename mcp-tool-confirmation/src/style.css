@@ -37,6 +37,19 @@ p {
   margin: 0;
 }
 
+/* Add vertical alignment for the vscode-icon */
+p vscode-icon {
+	vertical-align: middle;
+	position: relative;
+	top: -1px;
+	margin-right: 4px;
+}
+
+a {
+  color: var(--vscode-textLink-activeForeground);
+  text-decoration: underline;
+}
+
 code.snippet {
   display: inline-block;
   background-color: var(--vscode-textPreformat-background);

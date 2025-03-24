@@ -8,6 +8,7 @@ import ToolConfirmation from './components/ToolConfirmation.vue';
 import CodeBlock from './components/CodeBlock.vue';
 import Message from './components/Message.vue';
 import Chat from './components/Chat.vue';
+import ChatDetails from './components/ChatDetails.vue';
 
 const isDarkTheme = ref(true);
 
@@ -60,7 +61,10 @@ function showListAllowedDirsConfirmation() {
   const firstTimeConfirmation = document.getElementById('first-time-warning');
   if (firstTimeConfirmation) {
     if (firstTimeConfirmation.style.display === 'flex') {
-      showTodo(firstTimeConfirmation, '[TODO: Server Usage Confirmation UI]');
+      const toolExecuted = document.getElementById('first-time-confirm');
+      if (toolExecuted) {
+        show(toolExecuted);
+      }
       hide(firstTimeConfirmation);
     }
   }
@@ -77,12 +81,21 @@ function hideListAllowedDirsConfirmation() {
 function showListDirsConfirmation() {
   const confirmation = document.getElementById('list-allowed-directories');
   if (confirmation) {
-    showTodo(confirmation, '[TODO: Tool Executed UI]');
+    const toolExecuted = document.getElementById('list-allowed-directories-confirm');
+
+    if (toolExecuted) {
+      show(toolExecuted);
+    }
     hide(confirmation);
   }
 }
 
-const code = `{}`;
+const listAllowedInput = `{}`;
+const listAllowedOutput = `{}
+
+Allowed directories:
+/Users/hawk/Desktop
+/Users/hawk/Downloads`;
 </script>
 
 <template>
@@ -137,40 +150,81 @@ const code = `{}`;
         used for the first time.
       </p>
       <p>
-        Carefully review any requested actions. Note that MCP servers or malicious conversation content may
-        attempt to misuse 'Code - Insiders' through tools.
+        Do you trust "filesystem"? Executing its tools may pose risks. Proceed only if you trust the server.
       </p>
       <div style="display: flex; gap: 8px; margin-top: 8px;">
         <vscode-button @click="showListAllowedDirsConfirmation">Continue</vscode-button>
         <vscode-button @click="hideFirstTimeConfirmation" secondary>Cancel</vscode-button>
       </div>
     </ToolConfirmation>
-    <ToolConfirmation :id="'list-allowed-directories'">
-      <details class="tool-details">
-        <summary>Run <code class="snippet">list_allowed_directories</code></summary>
-        <div class="tool-confirmation__content">
-          <p>This tool is from the <code class="snippet">filesystem</code> MCP server.</p>
+    <ChatDetails :id="'first-time-confirm'" :toggleable="false">
+      <p class="tool-executed-title">
+        <vscode-icon name="check" style="color: var(--vscode-debugIcon-startForeground);"></vscode-icon> Confirmed
+        permission to use the <code class="snippet">filesystem</code> MCP server
+      </p>
+    </ChatDetails>
+    <ChatDetails :id="'list-allowed-directories'">
+      <p class="tool-executed-title">
+        Run <code class="snippet">list_allowed_directories</code>
+      </p>
+      <template #content>
+        <p>
+          Input:
+        </p>
+        <CodeBlock lang='json' :code="listAllowedInput" :theme="{
+          light: 'light-plus',
+          dark: 'dark-plus'
+        }"></CodeBlock>
+        <p>
+          <vscode-icon name="info"></vscode-icon> Carefully review the proposed action and input.
+        </p>
+        <div class="tool-information">
+          <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
           <p>
             Returns the list of directories that this server is allowed to access. Use this to understand which
             directories are available before trying to access files.
           </p>
-          <p style="font-weight: bold;">
-            Tool input:
-          </p>
-          <CodeBlock lang='typescript' :code="code" :theme="{
-            light: 'light-plus',
-            dark: 'dark-plus'
-          }"></CodeBlock>
+        </div>
+      </template>
+      <template #footer>
+        <div style="display: flex; gap: 8px; margin-top: 8px;">
+          <vscode-button @click="showListDirsConfirmation">Continue</vscode-button>
+          <vscode-button @click="hideListAllowedDirsConfirmation" secondary>Cancel</vscode-button>
+        </div>
+      </template>
+    </ChatDetails>
+    <ChatDetails :id="'list-allowed-directories-confirm'">
+      <p class="tool-executed-title">
+        <vscode-icon name="check" style="color: var(--vscode-debugIcon-startForeground);"></vscode-icon> Ran <code
+          class="snippet">list_allowed_directories</code>
+      </p>
+      <template #content>
+        <p>
+          Input:
+        </p>
+        <CodeBlock lang='json' :code="listAllowedInput" :theme="{
+          light: 'light-plus',
+          dark: 'dark-plus'
+        }"></CodeBlock>
+        <p>
+          Output:
+        </p>
+        <CodeBlock lang='json' :code="listAllowedOutput" :theme="{
+          light: 'light-plus',
+          dark: 'dark-plus'
+        }"></CodeBlock>
+        <div class="tool-information">
+          <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
           <p>
-            <vscode-icon name="info"></vscode-icon> Carefully review the proposed action and input.
+            Returns the list of directories that this server is allowed to access. Use this to understand which
+            directories are available before trying to access files.
           </p>
         </div>
-      </details>
-      <div style="display: flex; gap: 8px; margin-top: 8px;">
-        <vscode-button @click="showListDirsConfirmation">Continue</vscode-button>
-        <vscode-button @click="hideListAllowedDirsConfirmation" secondary>Cancel</vscode-button>
-      </div>
-    </ToolConfirmation>
+      </template>
+    </ChatDetails>
+    <!-- <Message>
+      <p>I see that I actually do have permission to access your Desktop folder. Let me check its contents for you:</p>
+    </Message> -->
     <Chat>
       <vscode-textfield value="I'm a fake prompt. Click submit."></vscode-textfield>
       <vscode-button @click="showFirstTimeConfirmation">Submit (first timer)</vscode-button>

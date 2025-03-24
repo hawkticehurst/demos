@@ -80,14 +80,6 @@ defineProps({
 	width: fit-content;
 }
 
-/* Add vertical alignment for the vscode-icon */
-.tool-confirmation p vscode-icon {
-	vertical-align: middle;
-	position: relative;
-	top: -1px;
-	margin-right: 4px;
-}
-
 .tool-confirmation-first-time-title {
 	font-weight: 700;
 }
