@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import QuickPick from './components/QuickPick.vue'
+import "@vscode-elements/elements/dist/vscode-icon/index.js";
 import { provideVSCodeDesignSystem, allComponents } from "@vscode/webview-ui-toolkit";
 import { ref, onMounted } from 'vue';
 

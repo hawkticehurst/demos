@@ -67,6 +67,9 @@ export default defineComponent({
 		</div>
 		<div class="quick-pick-option-metadata">
 			<slot name="metadata"></slot>
+			<vscode-button v-if="isServer && selected" appearance="icon">
+				<vscode-icon name="settings-gear"></vscode-icon>
+			</vscode-button>
 		</div>
 	</section>
 </template>
@@ -87,6 +90,10 @@ export default defineComponent({
 .quick-pick-option:hover {
 	/* This background color variable should not be changed */
 	background-color: var(--vscode-menu-separatorBackground);
+}
+
+.quick-pick-option.selected .quick-pick-option-metadata {
+	color: var(--vscode-menu-foreground);
 }
 
 .quick-pick-option.selected {
@@ -125,5 +132,8 @@ export default defineComponent({
 .quick-pick-option-metadata {
 	color: light-dark(var(--vscode-list-deemphasizedForeground), var(--vscode-focusBorder));
 	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 </style>

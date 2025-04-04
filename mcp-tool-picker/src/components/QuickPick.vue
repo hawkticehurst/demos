@@ -17,27 +17,27 @@ export default defineComponent({
 
 		// Restructured options with groups
 		const optionGroups = ref([
-			{
-				name: 'GitHub Copilot Chat',
-				options: [
-					{ label: 'GitHub Copilot Chat', description: '', metadata: 'from extension', checked: true, bold: true },
-					{ label: 'Codebase', description: 'References relevant file chunks, symbols, and other information in your codebase.', checked: true },
-					{ label: 'Find Usages', description: '', checked: true },
-					{ label: 'VS Code API', description: 'Use VS Code API to find references to answer questions about VS Code extension...', checked: true },
-					{ label: 'Git Changes', description: '', checked: true },
-					{ label: 'Test Failure', description: 'Include information about the last unit test failure.', checked: true },
-					{ label: 'Terminal Selection', description: 'The active terminal\'s selection.', checked: true },
-					{ label: 'Terminal Last Command', description: 'The active terminal\'s last run command.', checked: true },
-				]
-			},
-			{
-				name: 'poppy-framework',
-				options: [
-					{ label: 'MCP Server: poppy-framework', description: '', metadata: 'from your workspace', checked: true, bold: true },
-					{ label: 'poppy_state', description: 'Get an example of a Poppy state declaration. Use this to understand how to declare a Poppy state in your code.', checked: true },
-					{ label: 'create_poppy_component', description: 'Create a Poppy component. Use this to create a new Poppy component.', checked: true }
-				]
-			},
+			// {
+			// 	name: 'GitHub Copilot Chat',
+			// 	options: [
+			// 		{ label: 'GitHub Copilot Chat', description: '', metadata: 'from extension', checked: true, bold: true },
+			// 		{ label: 'Codebase', description: 'References relevant file chunks, symbols, and other information in your codebase.', checked: true },
+			// 		{ label: 'Find Usages', description: '', checked: true },
+			// 		{ label: 'VS Code API', description: 'Use VS Code API to find references to answer questions about VS Code extension...', checked: true },
+			// 		{ label: 'Git Changes', description: '', checked: true },
+			// 		{ label: 'Test Failure', description: 'Include information about the last unit test failure.', checked: true },
+			// 		{ label: 'Terminal Selection', description: 'The active terminal\'s selection.', checked: true },
+			// 		{ label: 'Terminal Last Command', description: 'The active terminal\'s last run command.', checked: true },
+			// 	]
+			// },
+			// {
+			// 	name: 'poppy-framework',
+			// 	options: [
+			// 		{ label: 'MCP Server: poppy-framework', description: '', metadata: 'from your workspace', checked: true, bold: true },
+			// 		{ label: 'poppy_state', description: 'Get an example of a Poppy state declaration. Use this to understand how to declare a Poppy state in your code.', checked: true },
+			// 		{ label: 'create_poppy_component', description: 'Create a Poppy component. Use this to create a new Poppy component.', checked: true }
+			// 	]
+			// },
 			{
 				name: 'filesystem',
 				options: [
@@ -57,9 +57,9 @@ export default defineComponent({
 					{ label: 'r2_list_buckets', description: 'List all R2 buckets in your account.', checked: true },
 					{ label: 'r2_create_bucket', description: 'Create a new R2 bucket.', checked: true },
 					{ label: 'r2_delete_bucket', description: 'Delete an R2 bucket.', checked: true },
-					{ label: 'r2_list_objects', description: 'List objects in an R2 bucket.', checked: true },
-					{ label: 'r2_get_object', description: 'Get an object from an R2 bucket.', checked: true },
-					{ label: 'r2_put_object', description: 'Put an object into an R2 bucket.', checked: true },
+					// { label: 'r2_list_objects', description: 'List objects in an R2 bucket.', checked: true },
+					// { label: 'r2_get_object', description: 'Get an object from an R2 bucket.', checked: true },
+					// { label: 'r2_put_object', description: 'Put an object into an R2 bucket.', checked: true },
 				]
 			},
 			{
