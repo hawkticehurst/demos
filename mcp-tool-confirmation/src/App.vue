@@ -9,6 +9,8 @@ import CodeBlock from './components/CodeBlock.vue';
 import Message from './components/Message.vue';
 import Chat from './components/Chat.vue';
 import ChatDetails from './components/ChatDetails.vue';
+import ReadMore from './components/ReadMore.vue';
+import SplitButton from './components/SplitButton.vue';
 
 const isDarkTheme = ref(true);
 
@@ -38,26 +40,14 @@ function showTodo(element: HTMLElement, message: string) {
   element.insertAdjacentElement('afterend', p);
 }
 
+function showFirstTimeDialog() {
+  const confirmation = document.getElementById('first-time-warning');
+  if (confirmation) {
+    show(confirmation);
+  }
+}
+
 function showFirstTimeConfirmation() {
-  const confirmation = document.getElementById('first-time-warning');
-  if (confirmation) {
-    show(confirmation);
-  }
-}
-
-function hideFirstTimeConfirmation() {
-  const confirmation = document.getElementById('first-time-warning');
-  if (confirmation) {
-    showTodo(confirmation, '[TODO: Server Usage Denial UI]');
-    hide(confirmation);
-  }
-}
-
-function showListAllowedDirsConfirmation() {
-  const confirmation = document.getElementById('list-allowed-directories');
-  if (confirmation) {
-    show(confirmation);
-  }
   const firstTimeConfirmation = document.getElementById('first-time-warning');
   if (firstTimeConfirmation) {
     if (firstTimeConfirmation.style.display === 'flex') {
@@ -70,15 +60,15 @@ function showListAllowedDirsConfirmation() {
   }
 }
 
-function hideListAllowedDirsConfirmation() {
-  const confirmation = document.getElementById('list-allowed-directories') as HTMLDialogElement;
+function showListAllowedDirsDialog() {
+  const confirmation = document.getElementById('list-allowed-directories');
   if (confirmation) {
-    showTodo(confirmation, '[TODO: Tool Cancelled UI]');
-    hide(confirmation);
+    show(confirmation);
   }
+  showFirstTimeConfirmation();
 }
 
-function showListDirsConfirmation() {
+function showListAllowedDirsConfirmation() {
   const confirmation = document.getElementById('list-allowed-directories');
   if (confirmation) {
     const toolExecuted = document.getElementById('list-allowed-directories-confirm');
@@ -88,6 +78,72 @@ function showListDirsConfirmation() {
     }
     hide(confirmation);
   }
+  showListAllowedConfirmationMessage();
+  showListDirsDialog();
+}
+
+function showListAllowedConfirmationMessage() {
+  const confirmation = document.getElementById('list-allowed-directories-confirm');
+  if (confirmation) {
+    const message = document.getElementById('list-allowed-directories-confirm-message');
+    if (message) {
+      show(message);
+    }
+  }
+}
+
+function showListDirsDialog() {
+  const confirmation = document.getElementById('list-directories');
+  if (confirmation) {
+    show(confirmation);
+  }
+}
+
+function showListDirsConfirmation() {
+  const confirmation = document.getElementById('list-directories');
+  if (confirmation) {
+    const toolExecuted = document.getElementById('list-directories-confirm');
+
+    if (toolExecuted) {
+      show(toolExecuted);
+    }
+    hide(confirmation);
+  }
+  showListDirsConfirmationMessage();
+}
+
+function showListDirsConfirmationMessage() {
+  const confirmation = document.getElementById('list-directories-confirm');
+  if (confirmation) {
+    const message = document.getElementById('list-directories-confirm-message');
+    if (message) {
+      show(message);
+    }
+  }
+}
+
+function cancelFirstTimeDialog() {
+  const confirmation = document.getElementById('first-time-warning');
+  if (confirmation) {
+    showTodo(confirmation, '[TODO: Server Usage Denial UI]');
+    hide(confirmation);
+  }
+}
+
+function cancelListAllowedDirsDialog() {
+  const confirmation = document.getElementById('list-allowed-directories');
+  if (confirmation) {
+    showTodo(confirmation, '[TODO: Tool Cancelled UI]');
+    hide(confirmation);
+  }
+}
+
+function cancelListDirsDialog() {
+  const confirmation = document.getElementById('list-directories');
+  if (confirmation) {
+    showTodo(confirmation, '[TODO: Tool Cancelled UI]');
+    hide(confirmation);
+  }
 }
 
 const listAllowedInput = `{}`;
@@ -95,7 +151,27 @@ const listAllowedOutput = `{}
 
 Allowed directories:
 /Users/hawk/Desktop
-/Users/hawk/Downloads`;
+/Users/hawk/Downloads
+/Users/hawk/Pictures
+/Users/hawk/Videos
+/Users/hawk/Documents
+/Users/hawk/Desktop/Screenshots
+/Users/hawk/Documents/Programming
+/Users/hawk/Documents/Programming/vscode
+/Users/hawk/Documents/Programming/mcp
+/Users/hawk/Applications`;
+
+const listDirsInput = `{
+  "path": "/Users/hawk/Desktop"
+}`;
+const listDirsOutput = `{
+  "path": "/Users/hawk/Desktop"
+}
+
+[FILE] .DS_Store
+[FILE] .localized
+[DIR] april-website
+[DIR] screenshots`
 </script>
 
 <template>
@@ -103,7 +179,7 @@ Allowed directories:
     <vscode-checkbox label="Toggle theme" id="theme-toggle" :checked="isDarkTheme"
       @change="toggleTheme"></vscode-checkbox>
   </div>
-  <details class="proposed-changes">
+  <!-- <details class="proposed-changes">
     <summary>Proposed Changes</summary>
     <ol>
       <li>Add a confirmation for the first time a new MCP server is used.</li>
@@ -129,7 +205,7 @@ Allowed directories:
       </ul>
       <li>TODO: More to come... this demo is still WIP</li>
     </ol>
-  </details>
+  </details> -->
   <section class="chat-thread">
     <Message>
       <div style="display: flex; gap: 8px; align-items: center;">
@@ -153,82 +229,200 @@ Allowed directories:
         Do you trust "filesystem"? Executing its tools may pose risks. Proceed only if you trust the server.
       </p>
       <div style="display: flex; gap: 8px; margin-top: 8px;">
-        <vscode-button @click="showListAllowedDirsConfirmation">Continue</vscode-button>
-        <vscode-button @click="hideFirstTimeConfirmation" secondary>Cancel</vscode-button>
+        <SplitButton @click="showListAllowedDirsDialog">
+          Continue
+          <template #menu>
+            <p>Allow in this Session</p>
+            <p>Allow in this Workspace</p>
+            <p>Always Allow</p>
+          </template>
+        </SplitButton>
+        <vscode-button @click="cancelFirstTimeDialog" secondary>Cancel</vscode-button>
       </div>
     </ToolConfirmation>
     <ChatDetails :id="'first-time-confirm'" :toggleable="false">
-      <p class="tool-executed-title">
-        <vscode-icon name="check" style="color: var(--vscode-debugIcon-startForeground);"></vscode-icon> Confirmed
-        permission to use the <code class="snippet">filesystem</code> MCP server
-      </p>
-    </ChatDetails>
-    <ChatDetails :id="'list-allowed-directories'">
-      <p class="tool-executed-title">
-        Run <code class="snippet">list_allowed_directories</code>
-      </p>
-      <template #content>
-        <p>
-          Input:
+      <template #default>
+        <p class="tool-executed-title"
+          style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <span>Confirmed permission to use the <code class="snippet">filesystem</code> MCP server</span>
+          <vscode-icon name="check"
+            style="color: var(--vscode-debugIcon-startForeground); padding-right: 5px;"></vscode-icon>
         </p>
-        <CodeBlock lang='json' :code="listAllowedInput" :theme="{
-          light: 'light-plus',
-          dark: 'dark-plus'
-        }"></CodeBlock>
+      </template>
+    </ChatDetails>
+    <ChatDetails :id="'list-allowed-directories'" :toggleable="true">
+      <template #default>
+        <p class="tool-executed-title">
+          <span>Run <code class="snippet">list_allowed_directories</code></span>
+        </p>
+      </template>
+      <template #buttons>
+        <div style="display: flex; gap: 8px;">
+          <SplitButton @click="showListAllowedDirsConfirmation">
+            Continue
+            <template #menu>
+              <p>Allow in this Session</p>
+              <p>Allow in this Workspace</p>
+              <p>Always Allow</p>
+            </template>
+          </SplitButton>
+          <vscode-button @click="cancelListAllowedDirsDialog" secondary>Cancel</vscode-button>
+        </div>
+      </template>
+      <template #content>
+        <p>Input:</p>
+        <CodeBlock lang='json' :code="listAllowedInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
+        <ReadMore>
+          <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+          <p>
+            Returns the list of directories that this server is allowed to access. Use this to understand which
+            directories are available before trying to access files.
+          </p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus non optio similique necessitatibus neque,
+            est iure ratione officia voluptatum explicabo totam tenetur! Odio aliquid quaerat placeat minima quos! Amet
+            sequi laboriosam ducimus repellat sed distinctio asperiores repudiandae nihil? Quasi, eligendi?</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit culpa corrupti, iusto ad fugit, ex pariatur
+            reprehenderit consequatur veniam minus non at architecto accusamus nulla. Et ratione veniam eligendi id
+            architecto doloremque tempore sint tempora soluta deserunt officia nesciunt modi pariatur ut autem
+            necessitatibus, recusandae ipsum corporis, minima eius, accusantium ullam! Minima, facere. Laudantium
+            impedit facilis possimus, quo natus voluptatem officiis vero, atque dicta dolore excepturi repudiandae
+            veniam nisi odio voluptatum delectus quisquam ratione placeat assumenda sit.</p>
+        </ReadMore>
+      </template>
+      <template #disclaimer>
         <p>
           <vscode-icon name="info"></vscode-icon> Carefully review the proposed action and input.
         </p>
-        <div class="tool-information">
-          <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
-          <p>
-            Returns the list of directories that this server is allowed to access. Use this to understand which
-            directories are available before trying to access files.
-          </p>
-        </div>
-      </template>
-      <template #footer>
-        <div style="display: flex; gap: 8px; margin-top: 8px;">
-          <vscode-button @click="showListDirsConfirmation">Continue</vscode-button>
-          <vscode-button @click="hideListAllowedDirsConfirmation" secondary>Cancel</vscode-button>
-        </div>
       </template>
     </ChatDetails>
-    <ChatDetails :id="'list-allowed-directories-confirm'">
-      <p class="tool-executed-title">
-        <vscode-icon name="check" style="color: var(--vscode-debugIcon-startForeground);"></vscode-icon> Ran <code
-          class="snippet">list_allowed_directories</code>
-      </p>
+    <ChatDetails :id="'list-allowed-directories-confirm'" :toggleable="true">
+      <template #default>
+        <p class="tool-executed-title"
+          style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <span>Ran <code class="snippet">list_allowed_directories</code></span>
+          <vscode-icon name="check" style="color: var(--vscode-debugIcon-startForeground);"></vscode-icon>
+        </p>
+      </template>
       <template #content>
-        <p>
-          Input:
-        </p>
-        <CodeBlock lang='json' :code="listAllowedInput" :theme="{
-          light: 'light-plus',
-          dark: 'dark-plus'
-        }"></CodeBlock>
-        <p>
-          Output:
-        </p>
-        <CodeBlock lang='json' :code="listAllowedOutput" :theme="{
-          light: 'light-plus',
-          dark: 'dark-plus'
-        }"></CodeBlock>
-        <div class="tool-information">
+        <p>Input:</p>
+        <CodeBlock lang='json' :code="listAllowedInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
+        <p>Output:</p>
+        <CodeBlock lang='json' :code="listAllowedOutput" :theme="{ light: 'light-plus', dark: 'dark-plus' }">
+        </CodeBlock>
+        <ReadMore>
           <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
           <p>
             Returns the list of directories that this server is allowed to access. Use this to understand which
             directories are available before trying to access files.
           </p>
-        </div>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus non optio similique necessitatibus neque,
+            est iure ratione officia voluptatum explicabo totam tenetur! Odio aliquid quaerat placeat minima quos! Amet
+            sequi laboriosam ducimus repellat sed distinctio asperiores repudiandae nihil? Quasi, eligendi?</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit culpa corrupti, iusto ad fugit, ex pariatur
+            reprehenderit consequatur veniam minus non at architecto accusamus nulla. Et ratione veniam eligendi id
+            architecto doloremque tempore sint tempora soluta deserunt officia nesciunt modi pariatur ut autem
+            necessitatibus, recusandae ipsum corporis, minima eius, accusantium ullam! Minima, facere. Laudantium
+            impedit facilis possimus, quo natus voluptatem officiis vero, atque dicta dolore excepturi repudiandae
+            veniam nisi odio voluptatum delectus quisquam ratione placeat assumenda sit.</p>
+        </ReadMore>
       </template>
     </ChatDetails>
-    <!-- <Message>
-      <p>I see that I actually do have permission to access your Desktop folder. Let me check its contents for you:</p>
-    </Message> -->
+    <Message :id="'list-allowed-directories-confirm-message'">
+      <p>Great, I have access to the desktop folder. I'll now list the contents of that folder.</p>
+    </Message>
+    <ChatDetails :id="'list-directories'">
+      <template #default>
+        <p class="tool-executed-title">
+          <span>Run <code class="snippet">list_directories</code></span>
+        </p>
+      </template>
+      <template #buttons>
+        <div style="display: flex; gap: 8px;">
+          <SplitButton @click="showListDirsConfirmation">
+            Continue
+            <template #menu>
+              <p>Allow in this Session</p>
+              <p>Allow in this Workspace</p>
+              <p>Always Allow</p>
+            </template>
+          </SplitButton>
+          <vscode-button @click="cancelListDirsDialog" secondary>Cancel</vscode-button>
+        </div>
+      </template>
+      <template #content>
+        <p>Input:</p>
+        <CodeBlock lang='json' :code="listDirsInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
+        <ReadMore>
+          <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+          <p>
+            Get a detailed listing of all files and directories in a specified path. Results clearly distinguish between
+            files and directories with [FILE] and [DIR] prefixes. This tool is essential for understanding directory
+            structure and finding specific files within a directory. Only works within allowed directories.
+          </p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus non optio similique necessitatibus neque,
+            est iure ratione officia voluptatum explicabo totam tenetur! Odio aliquid quaerat placeat minima quos! Amet
+            sequi laboriosam ducimus repellat sed distinctio asperiores repudiandae nihil? Quasi, eligendi?</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit culpa corrupti, iusto ad fugit, ex pariatur
+            reprehenderit consequatur veniam minus non at architecto accusamus nulla. Et ratione veniam eligendi id
+            architecto doloremque tempore sint tempora soluta deserunt officia nesciunt modi pariatur ut autem
+            necessitatibus, recusandae ipsum corporis, minima eius, accusantium ullam! Minima, facere. Laudantium
+            impedit facilis possimus, quo natus voluptatem officiis vero, atque dicta dolore excepturi repudiandae
+            veniam nisi odio voluptatum delectus quisquam ratione placeat assumenda sit.</p>
+        </ReadMore>
+      </template>
+      <template #disclaimer>
+        <p>
+          <vscode-icon name="info"></vscode-icon> Carefully review the proposed action and input.
+        </p>
+      </template>
+    </ChatDetails>
+    <ChatDetails :id="'list-directories-confirm'" :toggleable="true">
+      <template #default>
+        <p class="tool-executed-title"
+          style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <span>Ran <code class="snippet">list_directories</code></span>
+          <vscode-icon name="check" style="color: var(--vscode-debugIcon-startForeground);"></vscode-icon>
+        </p>
+      </template>
+      <template #content>
+        <p>Input:</p>
+        <CodeBlock lang='json' :code="listDirsInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
+        <p>Output:</p>
+        <CodeBlock lang='json' :code="listDirsOutput" :theme="{ light: 'light-plus', dark: 'dark-plus' }">
+        </CodeBlock>
+        <ReadMore>
+          <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+          <p>
+            Get a detailed listing of all files and directories in a specified path. Results clearly distinguish between
+            files and directories with [FILE] and [DIR] prefixes. This tool is essential for understanding directory
+            structure and finding specific files within a directory. Only works within allowed directories.
+          </p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus non optio similique necessitatibus neque,
+            est iure ratione officia voluptatum explicabo totam tenetur! Odio aliquid quaerat placeat minima quos! Amet
+            sequi laboriosam ducimus repellat sed distinctio asperiores repudiandae nihil? Quasi, eligendi?</p>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit culpa corrupti, iusto ad fugit, ex pariatur
+            reprehenderit consequatur veniam minus non at architecto accusamus nulla. Et ratione veniam eligendi id
+            architecto doloremque tempore sint tempora soluta deserunt officia nesciunt modi pariatur ut autem
+            necessitatibus, recusandae ipsum corporis, minima eius, accusantium ullam! Minima, facere. Laudantium
+            impedit facilis possimus, quo natus voluptatem officiis vero, atque dicta dolore excepturi repudiandae
+            veniam nisi odio voluptatum delectus quisquam ratione placeat assumenda sit.</p>
+        </ReadMore>
+      </template>
+    </ChatDetails>
+    <Message :id="'list-directories-confirm-message'">
+      <p>Your desktop contains the following items:</p>
+      <ol>
+        <li>A hidden file: <code class="snippet">.DS_Store</code></li>
+        <li>Another hidden file: <code class="snippet">.localized</code></li>
+        <li>A folder named <code class="snippet">april-website</code></li>
+        <li>A folder named <code class="snippet">screenshots</code></li>
+      </ol>
+      <p>Let me know if you'd like to explore any of these further!</p>
+    </Message>
     <Chat>
       <vscode-textfield value="I'm a fake prompt. Click submit."></vscode-textfield>
-      <vscode-button @click="showFirstTimeConfirmation">Submit (first timer)</vscode-button>
-      <vscode-button @click="showListAllowedDirsConfirmation">Submit</vscode-button>
+      <vscode-button @click="showFirstTimeDialog">Submit (first timer)</vscode-button>
+      <vscode-button @click="showListAllowedDirsDialog">Submit</vscode-button>
     </Chat>
   </section>
 </template>
@@ -293,9 +487,15 @@ details.proposed-changes ul li ul li {
   flex-direction: column;
   justify-content: flex-start;
   width: 575px;
-  gap: 2rem;
+  gap: 1.5rem;
   margin-top: 40px;
   overflow: scroll;
-  height: 100vh;
+  height: 87vh;
+  padding-bottom: 2rem;
+}
+
+#list-allowed-directories-confirm-message,
+#list-directories-confirm-message {
+  display: none;
 }
 </style>

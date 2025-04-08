@@ -24,18 +24,26 @@ const showContent = computed(() => props.toggleable ? isExpanded.value : false);
 // Animation handlers
 const onEnter = (el: Element, done: () => void) => {
 	const element = el as HTMLElement;
+	// Set initial height to auto to get the full height including expanded content
 	element.style.height = 'auto';
 	const height = element.offsetHeight + 'px';
 	element.style.height = '0px';
 	// Force browser to acknowledge the change
 	void element.offsetHeight;
+	// Set height to auto after transition to allow for dynamic content changes
 	element.style.height = height;
-	element.addEventListener('transitionend', done, { once: true });
+	const handleTransitionEnd = () => {
+		element.style.height = 'auto';
+		done();
+	};
+	element.addEventListener('transitionend', handleTransitionEnd, { once: true });
 };
 
 const onLeave = (el: Element, done: () => void) => {
 	const element = el as HTMLElement;
-	element.style.height = element.offsetHeight + 'px';
+	// Get current height before collapse
+	const height = element.offsetHeight + 'px';
+	element.style.height = height;
 	// Force browser to acknowledge the change
 	void element.offsetHeight;
 	element.style.height = '0px';
@@ -45,23 +53,35 @@ const onLeave = (el: Element, done: () => void) => {
 
 <template>
 	<section class="tool-executed" :class="{ 'non-toggleable': !toggleable }" :id="id">
-		<p class="tool-executed-header" @click="toggleExpanded" :class="{ 'toggleable': toggleable }">
-			<slot></slot>
-			<template v-if="toggleable">
-				<vscode-icon name="chevron-down" :style="{ display: isExpanded ? 'block' : 'none' }"></vscode-icon>
-				<vscode-icon name="chevron-right" :style="{ display: !isExpanded ? 'block' : 'none' }"></vscode-icon>
+		<div class="box">
+			<div class="tool-executed-header" @click="toggleExpanded" :class="{ 'toggleable': toggleable }">
+				<span class="tool-executed-title">
+					<template v-if="toggleable">
+						<vscode-icon name="chevron-down" :style="{ display: isExpanded ? 'block' : 'none' }"></vscode-icon>
+						<vscode-icon name="chevron-right" :style="{ display: !isExpanded ? 'block' : 'none' }"></vscode-icon>
+					</template>
+					<slot></slot>
+				</span>
+			</div>
+			<transition name="toggle-content" @enter="onEnter" @leave="onLeave">
+				<div class="tool-executed-content" v-show="showContent">
+					<slot name="content"></slot>
+				</div>
+			</transition>
+			<template v-if="$slots.buttons">
+				
 			</template>
-		</p>
-		<transition name="toggle-content" @enter="onEnter" @leave="onLeave">
-			<div class="tool-executed-content" v-show="showContent">
-				<slot name="content"></slot>
-			</div>
-		</transition>
-		<template v-if="$slots.footer">
-			<div class="tool-executed-footer">
-				<slot name="footer"></slot>
-			</div>
-		</template>
+			<template v-if="$slots.disclaimer">
+				<div class="tool-executed-footer">
+					<span class="tool-execution-buttons">
+						<slot name="buttons"></slot>
+					</span>
+					<span class="tool-disclaimer">
+						<slot name="disclaimer"></slot>
+					</span>
+				</div>
+			</template>
+		</div>
 	</section>
 </template>
 
@@ -69,19 +89,26 @@ const onLeave = (el: Element, done: () => void) => {
 .tool-executed {
 	display: flex;
 	flex-direction: column;
-	background-color: var(--vscode-menu-background);
-	padding: 4px;
-	border-radius: 8px;
-	border: 1px solid var(--vscode-menu-border);
+	gap: 4px;
 	width: 575px;
 	outline: none;
 	display: none;
 }
 
-.tool-executed.non-toggleable {
+.box {
+	background-color: var(--vscode-menu-background);
+	padding: 4px;
+	border-radius: 8px;
+	border: 1px solid var(--vscode-menu-border);
+}
+
+.tool-executed.non-toggleable .tool-executed-header {
 	background-color: transparent;
 	border: none;
-	padding: 0;
+}
+
+.tool-executed.non-toggleable .tool-executed-header:hover {
+	background-color: transparent;
 }
 
 .tool-executed-header {
@@ -89,8 +116,24 @@ const onLeave = (el: Element, done: () => void) => {
 	align-items: center;
 	justify-content: space-between;
 	font-weight: 500;
-	padding: 4px;
+	padding: 2px;
 	border-radius: 4px;
+	width: 100%;
+}
+
+.tool-executed-title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.tool-executed-title vscode-icon {
+	padding: 0;
+}
+
+.tool-executed-header>vscode-icon {
+	top: 0px;
 }
 
 .tool-executed-header.toggleable {
@@ -101,8 +144,15 @@ const onLeave = (el: Element, done: () => void) => {
 	padding-left: 8px;
 }
 
-.tool-executed-header.toggleable:hover {
+.tool-executed-header:hover {
 	background-color: var(--vscode-list-hoverBackground);
+}
+
+.tool-execution-buttons {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 8px;
 }
 
 .tool-executed-content {
@@ -110,7 +160,7 @@ const onLeave = (el: Element, done: () => void) => {
 	flex-direction: column;
 	gap: 8px;
 	padding: 8px;
-	overflow: hidden;
+	overflow: visible;
 }
 
 .tool-information {
@@ -124,15 +174,22 @@ const onLeave = (el: Element, done: () => void) => {
 
 .tool-executed-footer {
 	display: flex;
+	flex-direction: column;
 	gap: 8px;
 	padding: 8px;
+	margin-top: 8px;
+}
+
+.tool-disclaimer {
+	font-size: 14px;
 }
 
 /* Animation styles */
 .toggle-content-enter-active,
 .toggle-content-leave-active {
-	transition: height 0.2s ease-in-out;
+	transition: height 0.3s ease-in-out;
 	overflow: hidden;
+	will-change: height;
 }
 
 .toggle-content-enter-from,

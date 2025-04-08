@@ -32,6 +32,7 @@ watch(props, async (val: { code: string, lang: BundledLanguage, theme: { light: 
     aria-live="polite"
     aria-roledescription="code block"
     lang="en" v-html="codeToHtml"
+    contenteditable="true"
   ></div>
 </template>
 
@@ -58,8 +59,13 @@ html.light-theme .shiki span {
 .shiki--code--block {
   width: 100%;
 	background-color: var(--vscode-interactive-result-editor-background-color);
-  border: 1px solid var(--vscode-input-border, transparent);
+  border: 1px solid var(--vscode-input-border);
 	border-radius: 4px;
+}
+
+.shiki--code--block:focus {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
 }
 
 pre {

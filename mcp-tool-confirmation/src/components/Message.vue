@@ -1,5 +1,16 @@
+<script setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+  id: {
+    type: String,
+    required: false
+  }
+});
+</script>
+
 <template>
-	<section class="chat-message">
+	<section class="chat-message" :id="id">
 		<slot></slot>
 	</section>
 </template>

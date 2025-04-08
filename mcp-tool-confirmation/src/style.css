@@ -19,14 +19,14 @@
 
 body {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  line-height: 1.5rem;
   font-weight: 500;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
-  display: grid;
+  display: flex;
   place-content: center;
   height: 100vh;
   background-color: var(--vscode-panel-background);
@@ -58,5 +58,10 @@ code.snippet {
   font-family: var(--monaco-monospace-font);
   font-size: 15px;
   padding: 1px 3px;
+  line-height: 1.2;
   white-space: pre-wrap;
+}
+
+vscode-button {
+  padding: 4px 8px;
 }
