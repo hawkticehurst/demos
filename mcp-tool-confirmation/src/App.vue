@@ -171,7 +171,22 @@ const listDirsOutput = `{
 [FILE] .DS_Store
 [FILE] .localized
 [DIR] april-website
-[DIR] screenshots`
+[DIR] screenshots
+[DIR] temp-1
+[DIR] temp-2
+[DIR] temp-3
+[DIR] temp-4
+[DIR] temp-5
+[DIR] temp-6
+[DIR] temp-7
+[DIR] temp-8
+[DIR] temp-9
+[DIR] temp-10
+[DIR] temp-11
+[DIR] temp-12
+[DIR] temp-13
+[DIR] temp-14
+[DIR] temp-15`
 </script>
 
 <template>
@@ -270,10 +285,11 @@ const listDirsOutput = `{
         </div>
       </template>
       <template #content>
-        <p>Input:</p>
+        <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+        <p style="font-weight: bold;">Input:</p>
         <CodeBlock lang='json' :code="listAllowedInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
         <ReadMore>
-          <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+          <p style="font-weight: bold;">Tool Description:</p>
           <p>
             Returns the list of directories that this server is allowed to access. Use this to understand which
             directories are available before trying to access files.
@@ -304,13 +320,14 @@ const listDirsOutput = `{
         </p>
       </template>
       <template #content>
-        <p>Input:</p>
+        <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+        <p style="font-weight: bold;">Input:</p>
         <CodeBlock lang='json' :code="listAllowedInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
-        <p>Output:</p>
-        <CodeBlock lang='json' :code="listAllowedOutput" :theme="{ light: 'light-plus', dark: 'dark-plus' }">
+        <p style="font-weight: bold;">Output:</p>
+        <CodeBlock :expandable="true" lang='json' :code="listAllowedOutput" :theme="{ light: 'light-plus', dark: 'dark-plus' }">
         </CodeBlock>
         <ReadMore>
-          <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+          <p style="font-weight: bold;">Tool Description:</p>
           <p>
             Returns the list of directories that this server is allowed to access. Use this to understand which
             directories are available before trying to access files.
@@ -350,10 +367,11 @@ const listDirsOutput = `{
         </div>
       </template>
       <template #content>
-        <p>Input:</p>
+        <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+        <p style="font-weight: bold;">Input:</p>
         <CodeBlock lang='json' :code="listDirsInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
         <ReadMore>
-          <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+          <p style="font-weight: bold;">Tool Description:</p>
           <p>
             Get a detailed listing of all files and directories in a specified path. Results clearly distinguish between
             files and directories with [FILE] and [DIR] prefixes. This tool is essential for understanding directory
@@ -385,13 +403,14 @@ const listDirsOutput = `{
         </p>
       </template>
       <template #content>
-        <p>Input:</p>
+        <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+        <p style="font-weight: bold;">Input:</p>
         <CodeBlock lang='json' :code="listDirsInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
-        <p>Output:</p>
-        <CodeBlock lang='json' :code="listDirsOutput" :theme="{ light: 'light-plus', dark: 'dark-plus' }">
+        <p style="font-weight: bold;">Output:</p>
+        <CodeBlock :expandable="true" lang='json' :code="listDirsOutput" :theme="{ light: 'light-plus', dark: 'dark-plus' }">
         </CodeBlock>
         <ReadMore>
-          <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
+          <p style="font-weight: bold;">Tool Description:</p>
           <p>
             Get a detailed listing of all files and directories in a specified path. Results clearly distinguish between
             files and directories with [FILE] and [DIR] prefixes. This tool is essential for understanding directory
@@ -416,6 +435,7 @@ const listDirsOutput = `{
         <li>Another hidden file: <code class="snippet">.localized</code></li>
         <li>A folder named <code class="snippet">april-website</code></li>
         <li>A folder named <code class="snippet">screenshots</code></li>
+        <li>Fifteen folders named <code class="snippet">temp-1</code> to <code class="snippet">temp-15</code></li>
       </ol>
       <p>Let me know if you'd like to explore any of these further!</p>
     </Message>
