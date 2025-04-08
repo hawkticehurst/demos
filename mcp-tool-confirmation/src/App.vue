@@ -286,7 +286,7 @@ const listDirsOutput = `{
       </template>
       <template #content>
         <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
-        <p style="font-weight: bold;">Input:</p>
+        <p style="font-weight: bold; margin-top: 12px;">Input:</p>
         <CodeBlock lang='json' :code="listAllowedInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
         <ReadMore>
           <p style="font-weight: bold;">Tool Description:</p>
@@ -321,7 +321,7 @@ const listDirsOutput = `{
       </template>
       <template #content>
         <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
-        <p style="font-weight: bold;">Input:</p>
+        <p style="font-weight: bold; margin-top: 12px;">Input:</p>
         <CodeBlock lang='json' :code="listAllowedInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
         <p style="font-weight: bold;">Output:</p>
         <CodeBlock :expandable="true" lang='json' :code="listAllowedOutput" :theme="{ light: 'light-plus', dark: 'dark-plus' }">
@@ -368,7 +368,7 @@ const listDirsOutput = `{
       </template>
       <template #content>
         <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
-        <p style="font-weight: bold;">Input:</p>
+        <p style="font-weight: bold; margin-top: 12px;">Input:</p>
         <CodeBlock lang='json' :code="listDirsInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
         <ReadMore>
           <p style="font-weight: bold;">Tool Description:</p>
@@ -404,7 +404,7 @@ const listDirsOutput = `{
       </template>
       <template #content>
         <p>This tool is from the <a href="#">filesystem</a> MCP server.</p>
-        <p style="font-weight: bold;">Input:</p>
+        <p style="font-weight: bold; margin-top: 12px;">Input:</p>
         <CodeBlock lang='json' :code="listDirsInput" :theme="{ light: 'light-plus', dark: 'dark-plus' }"></CodeBlock>
         <p style="font-weight: bold;">Output:</p>
         <CodeBlock :expandable="true" lang='json' :code="listDirsOutput" :theme="{ light: 'light-plus', dark: 'dark-plus' }">
